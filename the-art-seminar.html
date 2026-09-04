@@ -510,6 +510,7 @@ document.getElementById('cd').addEventListener('click',close);
 /* 동의서로 입력값 전달 — 질의문자열이 아닌 해시(#)에 담아 서버 기록·리퍼러에 남지 않게 한다 */
 var doclink=document.getElementById('doclink');
 doclink.addEventListener('click',function(){ docOpened=true; check(); });
+var EVENT_NAME='THE ART 2026-09-29';
 var DOC_URL='https://hanwhaplus-pb.github.io/forms/prospect-consent.html';
 function syncDoc(){
   var p=[];
@@ -517,10 +518,10 @@ function syncDoc(){
   if(ph.value.trim()) p.push('mobile='+encodeURIComponent(ph.value.trim()));
   if(og.value.trim()) p.push('org='+encodeURIComponent(og.value.trim()));
   if(/^(19|20)\d\d$/.test(yr.value)) p.push('year='+yr.value);
-  var a=agreeVal(); if(a) p.push('opt='+a);
-  var m=mealVal(); if(m) p.push('meal='+m);
-  var t=new Date();
-  p.push('wy='+t.getFullYear(),'wm='+(t.getMonth()+1),'wd='+t.getDate());
+  /* 동의서 쪽에서 참가 등록까지 바로 마무리하므로, 보기 좋은 값으로 그대로 넘긴다 */
+  var m=mealVal();  if(m) p.push('meal='+encodeURIComponent(m==='y'?'참석':'불참'));
+  var a=agreeVal(); if(a) p.push('consent='+encodeURIComponent(a==='y'?'동의':'미동의'));
+  p.push('event='+encodeURIComponent(EVENT_NAME));
   doclink.href=DOC_URL+(p.length?'#'+p.join('&'):'');
 }
 addEventListener('keydown',function(e){if(e.key==='Escape'&&sheet.classList.contains('on'))close()});
@@ -554,7 +555,7 @@ submit.addEventListener('click',function(){
     name:nm.value.trim(), year:yr.value, org:og.value.trim(),
     phone:ph.value, meal:mealVal()==='y'?'참석':(mealVal()==='n'?'불참':''),
     consent:agreeVal()==='y'?'동의':'미동의',
-    event:'THE ART 2026-09-29'
+    event:EVENT_NAME
   };
   submit.disabled=true; submit.textContent='접수 중…';
 
