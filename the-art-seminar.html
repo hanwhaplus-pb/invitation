@@ -546,7 +546,7 @@ function check(){submit.disabled=!ok();syncDoc()}
 /* ── 등록 전송 : Google Apps Script → 스프레드시트 ────────────
    아래 ENDPOINT 에 Apps Script 배포 주소(.../exec)를 넣으세요.
    비어 있으면 전송하지 않고 이메일 회신을 안내합니다.          */
-var ENDPOINT='https://script.google.com/macros/s/AKfycbzmdueDkHGbLW52MwujTY7aEFVpO7FlPvhLQVcU4zNZ_aBWulCsQA7fKDZtmDrrf3k5PQ/exec';
+var ENDPOINT='https://script.google.com/macros/s/AKfycbwRtmBmRCqLHbT2Vj7R2hpK_cK6YOUpi_53_tZSvgMbmqQgTlFjngJvvX186pgfTovTvQ/exec';
 
 submit.addEventListener('click',function(){
   if(!ok())return;
@@ -574,13 +574,24 @@ submit.addEventListener('click',function(){
   }
   var fd=new FormData();
   Object.keys(data).forEach(function(k){ fd.append(k,data[k]) });
-  fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:fd})
-    .then(function(){ finish(okMsg) })
-    .catch(function(){
-      submit.disabled=false; submit.textContent='등록 완료';
-      var e=document.getElementById('err');
-      if(e) e.textContent='전송에 실패했습니다. 잠시 후 다시 시도하거나 pluspb@hanwha.com 으로 연락 바랍니다.';
-    });
+
+  function fail(){
+    submit.disabled=false; submit.textContent='등록 완료';
+    var e=document.getElementById('err');
+    if(e) e.textContent='전송에 실패했습니다. 잠시 후 다시 시도하거나 pluspb@hanwha.com 으로 연락 바랍니다.';
+  }
+
+  /* 저장이 실제로 됐는지 응답을 확인한다.
+     응답을 읽지 못하고 성공 처리하면 신청이 조용히 사라질 수 있다. */
+  fetch(ENDPOINT,{method:'POST',body:fd})
+    .then(function(r){ return r.text(); })
+    .then(function(t){
+      var saved=false;
+      try{ var j=JSON.parse(t); saved=!!(j&&j.ok); }
+      catch(_){ saved=/^\s*ok\s*$/i.test(t); }   /* 예전 스크립트는 ok 만 회신 */
+      if(saved) finish(okMsg); else fail();
+    })
+    .catch(fail);
 });
 })();
 </script>
