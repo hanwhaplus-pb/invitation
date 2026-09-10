@@ -302,24 +302,6 @@ label i{font-style:normal;color:#B03A2E}
     </div>
 
     <div class="field">
-      <label>[선택] 개인정보 수집·이용 동의 <i>*</i></label>
-      <div class="seg col" id="agree">
-        <button type="button" data-v="y" aria-pressed="false">예, 동의합니다.</button>
-        <button type="button" data-v="n" aria-pressed="false">아니요, 동의하지 않습니다.</button>
-      </div>
-    </div>
-    <button class="terms" id="tb" aria-expanded="false" aria-controls="tbox">동의 내용 보기</button>
-    <div class="panel" id="tbox"><div><div class="termsbox">
-      <b>[선택] 개인정보 수집·이용 동의</b>
-      1. 수집·이용 목적: 세미나 등록, 잠재 고객 확보<br>
-      2. 수집·이용 항목: 이름, 휴대폰번호, 소속, 생년<br>
-      3. 보유 및 이용기간: 동의일로부터 1년 간 보관<br>
-      <span class="ind">※ 동의 후 세미나 참석 현장에서 파기 요청 시 즉시 파기</span>
-      4. 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익이 있는 경우에는 그 불이익의 내용<br>
-      <span class="ind">▪ 귀하는 개인정보 수집·이용에 관한 동의를 거부할 수 있습니다.</span>
-      <span class="ind">▪ 다만, 동의하지 않으실 경우 “세미나 참석 및 등록”이 원활하지 않을 수 있습니다.</span>
-    </div></div></div>
-    <div class="field">
       <label>가망고객 개인정보 동의서 <i>*</i></label>
       <a class="doclink" id="doclink" href="https://hanwhaplus-pb.github.io/forms/prospect-consent.html" target="_blank" rel="noopener noreferrer">동의서 작성하기 <span>↗</span></a>
     </div>
@@ -492,7 +474,6 @@ function segInit(el){
 }
 var docOpened=false;
 var mealVal=segInit(document.getElementById('meal'));
-var agreeVal=segInit(document.getElementById('agree'));
 function open(){
   sy=scrollY;scrim.classList.add('on');sheet.classList.add('on');
   document.body.style.cssText='position:fixed;left:0;right:0;top:'+(-sy)+'px';
@@ -519,19 +500,11 @@ function syncDoc(){
   if(/^(19|20)\d\d$/.test(yr.value)) p.push('year='+yr.value);
   /* 동의서 쪽에서 참가 등록까지 바로 마무리하므로, 보기 좋은 값으로 그대로 넘긴다 */
   var m=mealVal();  if(m) p.push('meal='+encodeURIComponent(m==='y'?'참석':'불참'));
-  var a=agreeVal(); if(a) p.push('consent='+encodeURIComponent(a==='y'?'동의':'미동의'));
   p.push('event='+encodeURIComponent(EVENT_NAME));
   doclink.href=DOC_URL+(p.length?'#'+p.join('&'):'');
 }
 addEventListener('keydown',function(e){if(e.key==='Escape'&&sheet.classList.contains('on'))close()});
 
-var tb=document.getElementById('tb');
-tb.addEventListener('click',function(){
-  var o=tb.getAttribute('aria-expanded')==='true';
-  tb.setAttribute('aria-expanded',o?'false':'true');
-  document.getElementById('tbox').style.gridTemplateRows=o?'0fr':'1fr';
-  tb.textContent=o?'동의 내용 보기':'동의 내용 접기';
-});
 ph.addEventListener('input',function(){
   var v=ph.value.replace(/\D/g,'').slice(0,11);
   ph.value=v.length<4?v:v.length<8?v.slice(0,3)+'-'+v.slice(3):v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
@@ -541,7 +514,7 @@ yr.addEventListener('input',function(){yr.value=yr.value.replace(/\D/g,'').slice
 og.addEventListener('input',check);
 nm.addEventListener('input',check);
 function ok(){return nm.value.trim()&&og.value.trim()&&/^(19|20)\d\d$/.test(yr.value)
-  &&ph.value.replace(/\D/g,'').length>=10&&agreeVal()!==''&&docOpened}
+  &&ph.value.replace(/\D/g,'').length>=10&&docOpened}
 function check(){submit.disabled=!ok();syncDoc()}
 /* ── 등록 전송 : Google Apps Script → 스프레드시트 ────────────
    아래 ENDPOINT 에 Apps Script 배포 주소(.../exec)를 넣으세요.
@@ -553,7 +526,6 @@ submit.addEventListener('click',function(){
   var data={
     name:nm.value.trim(), year:yr.value, org:og.value.trim(),
     phone:ph.value, meal:mealVal()==='y'?'참석':(mealVal()==='n'?'불참':''),
-    consent:agreeVal()==='y'?'동의':'미동의',
     event:EVENT_NAME
   };
   submit.disabled=true; submit.textContent='접수 중…';
