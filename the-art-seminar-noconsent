@@ -310,7 +310,7 @@ label i{font-style:normal;color:#B03A2E}
     </div>
 
     <div class="field">
-      <label>차량 이용여부</label>
+      <label>개인차량 이용여부</label>
       <div class="seg" id="car">
         <button type="button" data-v="y" aria-pressed="false">이용</button>
         <button type="button" data-v="n" aria-pressed="false">미이용</button>
