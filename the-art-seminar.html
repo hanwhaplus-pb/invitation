@@ -304,6 +304,7 @@ label i{font-style:normal;color:#B03A2E}
     <div class="field">
       <label>가망고객 개인정보 동의서 <i>*</i></label>
       <a class="doclink" id="doclink" href="https://hanwhaplus-pb.github.io/forms/prospect-consent.html" target="_blank" rel="noopener noreferrer">동의서 작성하기 <span>↗</span></a>
+      <p id="docStatus" style="margin-top:6px;font-size:12.5px;color:#B0AEA8">동의서 링크에서 제출까지 완료해야 등록할 수 있습니다.</p>
     </div>
     <button class="submit" id="submit" disabled>등록 완료</button>
     <p class="err" id="err"></p>
@@ -472,11 +473,36 @@ function segInit(el){
   return function(){var s=bs.filter(function(b){return b.getAttribute('aria-pressed')==='true'})[0];
     return s?s.dataset.v:''};
 }
-var docOpened=false;
+/* 동의서 "실제 제출"만 인정한다 — 링크를 여는 것만으로는 등록 버튼이 풀리지 않는다.
+   동의서 페이지(prospect-consent.html)와 같은 도메인(hanwhaplus-pb.github.io)이므로,
+   제출 완료 시 동의서 쪽에서 localStorage에 남기는 신호(consent_done_<token>)를
+   storage 이벤트로 전달받아 확인한다. */
+var consentDone=false, consentToken=null;
+var docStatus=document.getElementById('docStatus');
+function setDocStatus(){
+  if(!docStatus) return;
+  if(consentDone){ docStatus.textContent='제출 완료 ✓'; docStatus.style.color='#1C1C1C'; }
+  else{ docStatus.textContent='동의서 링크에서 제출까지 완료해야 등록할 수 있습니다.'; docStatus.style.color='#B0AEA8'; }
+}
+function checkConsentStorage(){
+  if(!consentToken||consentDone) return;
+  try{
+    if(localStorage.getItem('consent_done_'+consentToken)){
+      consentDone=true; setDocStatus(); check();
+    }
+  }catch(e){}
+}
+addEventListener('storage',function(e){
+  if(e.key==='consent_done_'+consentToken) checkConsentStorage();
+});
+document.addEventListener('visibilitychange',function(){ if(!document.hidden) checkConsentStorage(); });
+addEventListener('focus',checkConsentStorage);
 var mealVal=segInit(document.getElementById('meal'));
 function open(){
   sy=scrollY;scrim.classList.add('on');sheet.classList.add('on');
   document.body.style.cssText='position:fixed;left:0;right:0;top:'+(-sy)+'px';
+  consentToken='t'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+  consentDone=false; setDocStatus(); syncDoc(); check();
   setTimeout(function(){if(!document.getElementById('form').hidden)nm.focus()},420);
 }
 function close(){
@@ -489,7 +515,7 @@ document.getElementById('cd').addEventListener('click',close);
 
 /* 동의서로 입력값 전달 — 질의문자열이 아닌 해시(#)에 담아 서버 기록·리퍼러에 남지 않게 한다 */
 var doclink=document.getElementById('doclink');
-doclink.addEventListener('click',function(){ docOpened=true; check(); });
+doclink.addEventListener('click',function(){ setTimeout(checkConsentStorage,300); });
 var EVENT_NAME='THE ART 2026-09-29';
 var DOC_URL='https://hanwhaplus-pb.github.io/forms/prospect-consent.html';
 function syncDoc(){
@@ -501,6 +527,7 @@ function syncDoc(){
   /* 동의서 쪽에서 참가 등록까지 바로 마무리하므로, 보기 좋은 값으로 그대로 넘긴다 */
   var m=mealVal();  if(m) p.push('meal='+encodeURIComponent(m==='y'?'참석':'불참'));
   p.push('event='+encodeURIComponent(EVENT_NAME));
+  if(consentToken) p.push('token='+consentToken);
   doclink.href=DOC_URL+(p.length?'#'+p.join('&'):'');
 }
 addEventListener('keydown',function(e){if(e.key==='Escape'&&sheet.classList.contains('on'))close()});
@@ -514,7 +541,7 @@ yr.addEventListener('input',function(){yr.value=yr.value.replace(/\D/g,'').slice
 og.addEventListener('input',check);
 nm.addEventListener('input',check);
 function ok(){return nm.value.trim()&&og.value.trim()&&/^(19|20)\d\d$/.test(yr.value)
-  &&ph.value.replace(/\D/g,'').length>=10&&docOpened}
+  &&ph.value.replace(/\D/g,'').length>=10&&consentDone}
 function check(){submit.disabled=!ok();syncDoc()}
 /* ── 등록 전송 : Google Apps Script → 스프레드시트 ────────────
    아래 ENDPOINT 에 Apps Script 배포 주소(.../exec)를 넣으세요.
