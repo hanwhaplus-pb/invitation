@@ -148,6 +148,7 @@ label i{font-style:normal;color:#B03A2E}
 .seg.col{flex-direction:column}
 .seg button{flex:1;min-height:48px;padding:0 12px;border:1px solid rgba(30,30,28,.16);border-radius:3px;
   background:#fff;font-size:14px;color:#54524E;letter-spacing:-.02em;transition:.18s}
+.seg button small{display:block;font-size:11.5px;font-weight:400;opacity:.7;margin-top:2px}
 .seg button[aria-pressed="true"]{background:#1C1C1C;border-color:#1C1C1C;color:#fff;font-weight:600}
 .agree{display:flex;gap:11px;align-items:flex-start;margin:22px 0 4px;text-align:left}
 .box2{width:20px;height:20px;flex:none;border:1px solid #A5A39D;border-radius:3px;background:#fff;
@@ -302,10 +303,43 @@ label i{font-style:normal;color:#B03A2E}
     </div>
 
     <div class="field">
+      <label>프라이빗 도슨트 참석여부</label>
+      <div class="seg" id="docent">
+        <button type="button" data-v="y" aria-pressed="false">참석<small>14:00 시작</small></button>
+        <button type="button" data-v="n" aria-pressed="false">불참<small>15:20 시작</small></button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>선호 음료</label>
+      <div class="seg" id="drink">
+        <button type="button" data-v="n" aria-pressed="false">없음<small>따뜻한 차 기본 제공</small></button>
+        <button type="button" data-v="y" aria-pressed="false">있음<small>직접 기재</small></button>
+      </div>
+    </div>
+    <div class="field" id="drinkField" style="display:none">
+      <label for="drinkTxt">선호 음료 <i>*</i></label>
+      <input type="text" id="drinkTxt" placeholder="예) 아이스 아메리카노" maxlength="40">
+    </div>
+
+    <div class="field">
+      <label>개인차량 이용여부</label>
+      <div class="seg" id="car">
+        <button type="button" data-v="y" aria-pressed="false">이용</button>
+        <button type="button" data-v="n" aria-pressed="false">미이용</button>
+      </div>
+    </div>
+    <div class="field" id="carNumField" style="display:none">
+      <label for="carNum">차량번호 <i>*</i></label>
+      <input type="text" id="carNum" placeholder="12가 3456">
+    </div>
+
+    <div class="field">
       <label>가망고객 개인정보 동의서 <i>*</i></label>
       <a class="doclink" id="doclink" href="https://hanwhaplus-pb.github.io/forms/prospect-consent.html" target="_blank" rel="noopener noreferrer">동의서 작성하기 <span>↗</span></a>
       <p id="docStatus" style="margin-top:6px;font-size:12.5px;color:#B0AEA8">동의서 링크에서 제출까지 완료해야 등록할 수 있습니다.</p>
     </div>
+    <p class="note-chg" style="margin:4px 0 14px;font-size:12.5px;line-height:1.6;color:#8A877F;text-align:center">변동사항이 있으실 경우 초대자를 통해 연락 부탁드립니다.</p>
     <button class="submit" id="submit" disabled>등록 완료</button>
     <p class="err" id="err"></p>
   </div>
@@ -316,7 +350,7 @@ label i{font-style:normal;color:#B03A2E}
       <path d="M15 27l8 8 15-16" style="--l:33"></path>
     </svg>
     <h3>등록이 완료되었습니다</h3>
-    <p class="lede" id="dl" style="margin-bottom:26px">신청 감사합니다.<br>상세 안내를 위해 PLUS PB가 별도로 연락드릴 예정입니다.</p>
+    <p class="lede" id="dl" style="margin-bottom:26px">신청 감사합니다.<br>상세 안내를 위해 PLUS PB가 별도로 연락드릴 예정입니다.<br>변동사항이 있으실 경우 초대자를 통해 연락 부탁드립니다.</p>
     <button class="submit" id="cd">확인</button>
   </div>
 </div>
@@ -498,6 +532,14 @@ addEventListener('storage',function(e){
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) checkConsentStorage(); });
 addEventListener('focus',checkConsentStorage);
 var mealVal=segInit(document.getElementById('meal'));
+var docentVal=segInit(document.getElementById('docent'));
+var carVal=segInit(document.getElementById('car'));
+var drinkVal=segInit(document.getElementById('drink'));
+var drinkTxt=document.getElementById('drinkTxt'), drinkField=document.getElementById('drinkField');
+drinkTxt.addEventListener('input',check);
+function drinkStr(){ var d=drinkVal(); return d==='n'?'없음(따뜻한 차)':(d==='y'?drinkTxt.value.trim():''); }
+var carNum=document.getElementById('carNum'), carNumField=document.getElementById('carNumField');
+carNum.addEventListener('input',check);
 function open(){
   sy=scrollY;scrim.classList.add('on');sheet.classList.add('on');
   document.body.style.cssText='position:fixed;left:0;right:0;top:'+(-sy)+'px';
@@ -526,6 +568,10 @@ function syncDoc(){
   if(/^(19|20)\d\d$/.test(yr.value)) p.push('year='+yr.value);
   /* 동의서 쪽에서 참가 등록까지 바로 마무리하므로, 보기 좋은 값으로 그대로 넘긴다 */
   var m=mealVal();  if(m) p.push('meal='+encodeURIComponent(m==='y'?'참석':'불참'));
+  var d=docentVal(); if(d) p.push('docent='+encodeURIComponent(d==='y'?'참석':'불참'));
+  var c=carVal();    if(c) p.push('car='+encodeURIComponent(c==='y'?'이용':'미이용'));
+  if(c==='y'&&carNum.value.trim()) p.push('carNumber='+encodeURIComponent(carNum.value.trim()));
+  var dr=drinkStr(); if(dr) p.push('drink='+encodeURIComponent(dr));
   p.push('event='+encodeURIComponent(EVENT_NAME));
   if(consentToken) p.push('token='+consentToken);
   doclink.href=DOC_URL+(p.length?'#'+p.join('&'):'');
@@ -541,8 +587,14 @@ yr.addEventListener('input',function(){yr.value=yr.value.replace(/\D/g,'').slice
 og.addEventListener('input',check);
 nm.addEventListener('input',check);
 function ok(){return nm.value.trim()&&og.value.trim()&&/^(19|20)\d\d$/.test(yr.value)
-  &&ph.value.replace(/\D/g,'').length>=10&&consentDone}
-function check(){submit.disabled=!ok();syncDoc()}
+  &&ph.value.replace(/\D/g,'').length>=10&&(carVal()!=='y'||carNum.value.trim())&&(drinkVal()!=='y'||drinkTxt.value.trim())&&consentDone}
+function check(){
+  carNumField.style.display=carVal()==='y'?'':'none';
+  if(carVal()!=='y') carNum.value='';
+  drinkField.style.display=drinkVal()==='y'?'':'none';
+  if(drinkVal()!=='y') drinkTxt.value='';
+  submit.disabled=!ok();syncDoc();
+}
 /* ── 등록 전송 : Google Apps Script → 스프레드시트 ────────────
    아래 ENDPOINT 에 Apps Script 배포 주소(.../exec)를 넣으세요.
    비어 있으면 전송하지 않고 이메일 회신을 안내합니다.          */
@@ -553,6 +605,11 @@ submit.addEventListener('click',function(){
   var data={
     name:nm.value.trim(), year:yr.value, org:og.value.trim(),
     phone:ph.value, meal:mealVal()==='y'?'참석':(mealVal()==='n'?'불참':''),
+    docent:docentVal()==='y'?'참석':(docentVal()==='n'?'불참':''),
+    car:carVal()==='y'?'이용':(carVal()==='n'?'미이용':''),
+    carNumber:carVal()==='y'?carNum.value.trim():'',
+    drink:drinkStr(),
+    consent:'동의',
     event:EVENT_NAME
   };
   submit.disabled=true; submit.textContent='접수 중…';
@@ -565,7 +622,8 @@ submit.addEventListener('click',function(){
   }
   function esc(s){ return String(s).replace(/[<>&"]/g,''); }
   var okMsg=esc(data.name)+' 고객님, 신청 감사합니다.<br>'
-    +'상세 안내를 위해 PLUS PB가 별도로 연락드릴 예정입니다.';
+    +'상세 안내를 위해 PLUS PB가 별도로 연락드릴 예정입니다.<br>'
+    +'변동사항이 있으실 경우 초대자를 통해 연락 부탁드립니다.';
 
   if(!ENDPOINT){
     finish(okMsg);
