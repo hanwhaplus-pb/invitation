@@ -167,6 +167,8 @@ label i{font-style:normal;color:#B03A2E}
 .submit{width:100%;height:54px;border-radius:3px;background:#1C1C1C;color:#fff;font-size:15.5px;
   font-weight:600;margin-top:20px;letter-spacing:-.03em;transition:.2s}
 .submit[disabled]{background:#CFCDC7;color:#8B8984;cursor:default}
+.submit.dim{background:#8B8984}
+.sheet{max-height:88dvh;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:calc(40px + env(safe-area-inset-bottom))}
 .err{margin:10px 0 0;font-size:12.5px;line-height:1.6;color:#B03A2E;text-align:center}
 .doclink{display:flex;align-items:center;gap:8px;width:100%;min-height:48px;padding:0 14px;
   border:1px solid rgba(30,30,28,.16);border-radius:3px;background:#fff;
@@ -337,10 +339,10 @@ label i{font-style:normal;color:#B03A2E}
     <div class="field">
       <label>가망고객 개인정보 동의서 <i>*</i></label>
       <a class="doclink" id="doclink" href="https://hanwhaplus-pb.github.io/forms/prospect-consent.html" target="_blank" rel="noopener noreferrer">동의서 작성하기 <span>↗</span></a>
-      <p id="docStatus" style="margin-top:6px;font-size:12.5px;color:#B0AEA8">동의서 링크에서 제출까지 완료해야 등록할 수 있습니다.</p>
+      <p id="docStatus" style="margin-top:6px;font-size:12.5px;color:#B0AEA8">입력 후 아래 버튼을 누르면 동의서 화면으로 이동하며, 동의서를 제출하면 참가 등록까지 함께 완료됩니다.</p>
     </div>
     <p class="note-chg" style="margin:4px 0 14px;font-size:12.5px;line-height:1.6;color:#8A877F;text-align:center">변동사항이 있으실 경우 초대자를 통해 연락 부탁드립니다.</p>
-    <button class="submit" id="submit" disabled>등록 완료</button>
+    <button class="submit dim" id="submit">등록 완료</button>
     <p class="err" id="err"></p>
   </div>
 
@@ -516,7 +518,7 @@ var docStatus=document.getElementById('docStatus');
 function setDocStatus(){
   if(!docStatus) return;
   if(consentDone){ docStatus.textContent='제출 완료 ✓'; docStatus.style.color='#1C1C1C'; }
-  else{ docStatus.textContent='동의서 링크에서 제출까지 완료해야 등록할 수 있습니다.'; docStatus.style.color='#B0AEA8'; }
+  else{ docStatus.textContent='입력 후 아래 버튼을 누르면 동의서 화면으로 이동하며, 동의서를 제출하면 참가 등록까지 함께 완료됩니다.'; docStatus.style.color='#B0AEA8'; }
 }
 function checkConsentStorage(){
   if(!consentToken||consentDone) return;
@@ -586,22 +588,60 @@ ph.addEventListener('input',function(){
 yr.addEventListener('input',function(){yr.value=yr.value.replace(/\D/g,'').slice(0,4);check()});
 og.addEventListener('input',check);
 nm.addEventListener('input',check);
-function ok(){return nm.value.trim()&&og.value.trim()&&/^(19|20)\d\d$/.test(yr.value)
-  &&ph.value.replace(/\D/g,'').length>=10&&(carVal()!=='y'||carNum.value.trim())&&(drinkVal()!=='y'||drinkTxt.value.trim())&&consentDone}
+/* 입력칸이 모두 채워졌는지 (동의서 여부 제외) */
+function filled(){return nm.value.trim()&&og.value.trim()&&/^(19|20)\d\d$/.test(yr.value)
+  &&ph.value.replace(/\D/g,'').length>=10&&(carVal()!=='y'||carNum.value.trim())&&(drinkVal()!=='y'||drinkTxt.value.trim())}
+function ok(){return filled()&&consentDone}
 function check(){
   carNumField.style.display=carVal()==='y'?'':'none';
   if(carVal()!=='y') carNum.value='';
   drinkField.style.display=drinkVal()==='y'?'':'none';
   if(drinkVal()!=='y') drinkTxt.value='';
-  submit.disabled=!ok();syncDoc();
+  syncDoc();
+  /* 카카오톡 등 앱 안 브라우저에서는 동의서가 다른 창·다른 브라우저로 열려
+     '제출 완료' 신호가 이 화면에 전달되지 않을 수 있다.
+     그래서 입력만 다 되면 버튼을 열어두고, 동의서가 아직 확인되지 않았으면
+     버튼을 눌렀을 때 동의서 화면으로 바로 이동시킨다(동의서 제출 시 등록까지 자동 완료). */
+  submit.disabled=false; submit.classList.toggle('dim',!filled());
+  if(filled()){var _e=document.getElementById('err'); if(_e&&/입력이 필요한/.test(_e.textContent)) _e.textContent='';[nm,yr,og,ph,drinkTxt,carNum].forEach(function(el){el.style.borderColor=''});}
+  submit.textContent=consentDone?'등록 완료':'동의서 작성 후 등록 완료';
 }
 /* ── 등록 전송 : Google Apps Script → 스프레드시트 ────────────
    아래 ENDPOINT 에 Apps Script 배포 주소(.../exec)를 넣으세요.
    비어 있으면 전송하지 않고 이메일 회신을 안내합니다.          */
+
+/* 빠진 항목 안내 — 버튼을 비활성으로 막아두면 고객은 왜 안 눌리는지 알 수 없다.
+   버튼은 항상 눌리게 두고, 누르면 빠진 칸을 빨갛게 표시하고 문구로 알려준다. */
+function missingList(){
+  var m=[];
+  if(!nm.value.trim()) m.push([nm,'이름']);
+  if(!/^(19|20)\d\d$/.test(yr.value)) m.push([yr,'생년(4자리, 예: 1975)']);
+  if(!og.value.trim()) m.push([og,'소속']);
+  if(ph.value.replace(/\D/g,'').length<10) m.push([ph,'휴대폰번호']);
+  if(drinkVal()==='y'&&!drinkTxt.value.trim()) m.push([drinkTxt,'선호 음료']);
+  if(carVal()==='y'&&!carNum.value.trim()) m.push([carNum,'차량번호']);
+  return m;
+}
+function showMissing(){
+  var m=missingList();
+  [nm,yr,og,ph,drinkTxt,carNum].forEach(function(el){el.style.borderColor=''});
+  m.forEach(function(x){x[0].style.borderColor='#B03A2E'});
+  var e=document.getElementById('err');
+  if(e) e.textContent=m.length?'입력이 필요한 항목: '+m.map(function(x){return x[1]}).join(', '):'';
+  if(m.length){ try{m[0][0].focus();m[0][0].scrollIntoView({block:'center',behavior:'smooth'})}catch(_){} }
+}
+/* 자동완성·키보드 변환 등으로 input 이벤트가 빠지는 경우 대비 */
+[nm,yr,og,ph].forEach(function(el){
+  el.addEventListener('change',check); el.addEventListener('blur',check); el.addEventListener('keyup',check);
+});
 var ENDPOINT='https://script.google.com/macros/s/AKfycbwRtmBmRCqLHbT2Vj7R2hpK_cK6YOUpi_53_tZSvgMbmqQgTlFjngJvvX186pgfTovTvQ/exec';
 
 submit.addEventListener('click',function(){
-  if(!ok())return;
+  check(); if(!filled()){ showMissing(); return; }
+  if(!consentDone){
+    checkConsentStorage();
+    if(!consentDone){ syncDoc(); location.href=doclink.href; return; }
+  }
   var data={
     name:nm.value.trim(), year:yr.value, org:og.value.trim(),
     phone:ph.value, meal:mealVal()==='y'?'참석':(mealVal()==='n'?'불참':''),
