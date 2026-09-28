@@ -150,6 +150,14 @@ label i{font-style:normal;color:#B03A2E}
   background:#fff;font-size:14px;color:#54524E;letter-spacing:-.02em;transition:.18s}
 .seg button small{display:block;font-size:11.5px;font-weight:400;opacity:.7;margin-top:2px}
 .seg button[aria-pressed="true"]{background:#1C1C1C;border-color:#1C1C1C;color:#fff;font-weight:600}
+/* 체크박스형 선택 (도슨트·선호음료) */
+.seg.chk button{display:flex;align-items:center;justify-content:flex-start;gap:9px;text-align:left}
+.seg.chk button[aria-pressed="true"]{background:#fff;border-color:#1C1C1C;color:#1C1C1C}
+.seg.chk .cb{width:18px;height:18px;flex:none;border:1px solid #A5A39D;border-radius:3px;background:#fff;position:relative;transition:.2s}
+.seg.chk .cb:after{content:'';position:absolute;left:5.5px;top:2px;width:5px;height:9.5px;border:solid #fff;
+  border-width:0 1.6px 1.6px 0;transform:rotate(45deg) scale(0);transition:transform .2s var(--ease)}
+.seg.chk button[aria-pressed="true"] .cb{background:#1C1C1C;border-color:#1C1C1C}
+.seg.chk button[aria-pressed="true"] .cb:after{transform:rotate(45deg) scale(1)}
 .agree{display:flex;gap:11px;align-items:flex-start;margin:22px 0 4px;text-align:left}
 .box2{width:20px;height:20px;flex:none;border:1px solid #A5A39D;border-radius:3px;background:#fff;
   margin-top:1px;position:relative;transition:.2s}
@@ -306,17 +314,17 @@ label i{font-style:normal;color:#B03A2E}
 
     <div class="field">
       <label>프라이빗 도슨트 참석여부</label>
-      <div class="seg" id="docent">
-        <button type="button" data-v="y" aria-pressed="false">참석<small>14:00 시작</small></button>
-        <button type="button" data-v="n" aria-pressed="false">불참<small>15:20 시작</small></button>
+      <div class="seg chk" id="docent">
+        <button type="button" data-v="y" aria-pressed="false" role="checkbox"><span class="cb"></span>참석(2시)</button>
+        <button type="button" data-v="n" aria-pressed="false" role="checkbox"><span class="cb"></span>불참(3시20분)</button>
       </div>
     </div>
 
     <div class="field">
       <label>선호 음료</label>
-      <div class="seg" id="drink">
-        <button type="button" data-v="n" aria-pressed="false">없음<small>따뜻한 차 기본 제공</small></button>
-        <button type="button" data-v="y" aria-pressed="false">있음<small>직접 기재</small></button>
+      <div class="seg chk" id="drink">
+        <button type="button" data-v="y" aria-pressed="false" role="checkbox"><span class="cb"></span>있음(기재)</button>
+        <button type="button" data-v="n" aria-pressed="false" role="checkbox"><span class="cb"></span>없음(따뜻한 차)</button>
       </div>
     </div>
     <div class="field" id="drinkField" style="display:none">
@@ -499,7 +507,8 @@ function segInit(el){
   var bs=[].slice.call(el.querySelectorAll('button'));
   bs.forEach(function(b){b.addEventListener('click',function(){
     bs.forEach(function(x){x.setAttribute('aria-pressed','false')});
-    b.setAttribute('aria-pressed','true');check();
+    b.setAttribute('aria-pressed','true');
+    bs.forEach(function(x){if(x.getAttribute('role')==='checkbox')x.setAttribute('aria-checked',x===b?'true':'false')});check();
   })});
   return function(){var s=bs.filter(function(b){return b.getAttribute('aria-pressed')==='true'})[0];
     return s?s.dataset.v:''};
