@@ -195,6 +195,7 @@ function syncDoc(){
   var m=mealVal(); if(m) p.push('meal='+encodeURIComponent(m==='y'?'참석':'불참'));
   var c=carVal(); if(c) p.push('car='+encodeURIComponent(c==='y'?'이용':'미이용'));
   if(c==='y'&&carNum.value.trim()) p.push('carNumber='+encodeURIComponent(carNum.value.trim()));
+  else if(c==='n') p.push('carNumber=-');
   var dr=drinkStr(); if(dr) p.push('drink='+encodeURIComponent(dr));
   p.push('event='+encodeURIComponent(EVENT_NAME));
   p.push('reg=tech2');
@@ -248,7 +249,7 @@ submit.addEventListener('click',function(){
   if(!consentDone){checkConsentStorage(); if(!consentDone){syncDoc();location.href=doclink.href;return}}
   var data={name:nm.value.trim(),year:yr.value,org:og.value.trim(),phone:ph.value,
     meal:mealVal()==='y'?'참석':(mealVal()==='n'?'불참':''),
-    car:carVal()==='y'?'이용':(carVal()==='n'?'미이용':''),carNumber:carVal()==='y'?carNum.value.trim():'',
+    car:carVal()==='y'?'이용':(carVal()==='n'?'미이용':''),carNumber:carVal()==='y'?carNum.value.trim():(carVal()==='n'?'-':''),
     drink:drinkStr(),consent:'동의',event:EVENT_NAME};
   submit.disabled=true; submit.textContent='접수 중…';
   if(!ENDPOINT){finish(data.name);return}
