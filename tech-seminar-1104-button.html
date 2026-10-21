@@ -118,7 +118,7 @@ a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important
       <div class="field"><label for="nm">이름 <i>*</i></label><input type="text" id="nm" autocomplete="name" placeholder="김고객"></div>
       <div class="field"><label for="yr">생년 <i>*</i></label><input type="text" id="yr" inputmode="numeric" maxlength="4" placeholder="1900"></div>
     </div>
-    <div class="field"><label for="og">소속 <i>*</i></label><input type="text" id="og" autocomplete="organization" placeholder="회사 또는 단체명"></div>
+    <div class="field"><label for="og">소속/본부 및 직함 <i>*</i></label><input type="text" id="og" autocomplete="organization" placeholder="예: 한화투자증권/PLUS자산전략팀 부장"></div>
     <div class="field"><label for="ph">휴대폰번호 <i>*</i></label><input type="tel" id="ph" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" maxlength="13"></div>
     <div class="field"><label>개인차량 이용여부</label><div class="seg" id="car"><button type="button" data-v="y" aria-pressed="false">이용</button><button type="button" data-v="n" aria-pressed="false">미이용</button></div></div><div class="field" id="carNumField" style="display:none"><label for="carNum">차량번호 <i>*</i></label><input type="text" id="carNum" placeholder="12가 3456"></div>
     <div class="field">
@@ -224,7 +224,7 @@ function missingList(){
   var m=[];
   if(!nm.value.trim()) m.push([nm,'이름']);
   if(!/^(19|20)\d\d$/.test(yr.value)) m.push([yr,'생년(4자리, 예: 1975)']);
-  if(!og.value.trim()) m.push([og,'소속']);
+  if(!og.value.trim()) m.push([og,'소속/본부 및 직함']);
   if(ph.value.replace(/\D/g,'').length<10) m.push([ph,'휴대폰번호']);
   if(drinkVal()==='y'&&!drinkTxt.value.trim()) m.push([drinkTxt,'선호 음료']);
   if(carVal()==='y'&&!carNum.value.trim()) m.push([carNum,'차량번호']);
