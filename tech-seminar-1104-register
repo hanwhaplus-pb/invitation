@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="theme-color" content="#282828" />
+<title>PLUS Tech Seminar | 참가 등록</title>
+<meta property="og:title" content="PLUS Tech Seminar | 참가 등록" />
+<meta property="og:description" content="2026. 11. 4(수) 오후 4시, 한화투자증권 본사 4층 스마트라운지" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+<style>
+:root{--ease:cubic-bezier(.16,1,.3,1);--kr:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#282828}
+body{color:#f2f2f2;font-family:var(--kr);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;word-break:keep-all}
+button{font-family:inherit;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.page{max-width:640px;margin:0 auto;padding-bottom:110px;padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+.main{display:block;width:100%;height:auto}
+.txt{padding:48px 28px 8px}
+.main+.txt{padding-top:24px}
+.series{margin:0;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.txt h1{margin:14px 0 0;font-size:28px;font-weight:700;line-height:1.3;letter-spacing:-.045em}
+.spk{margin:12px 0 0;font-size:15px;color:rgba(255,255,255,.65)}
+.spk b{color:#f2f2f2;font-weight:600}
+.lead{margin:24px 0 0;font-size:15px;line-height:1.65;color:rgba(255,255,255,.75);letter-spacing:-.02em}
+.info{margin:30px 0 0;border-top:1px solid rgba(255,255,255,.16)}
+.info div{display:flex;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.info dt{width:56px;flex:none;font-size:13px;color:rgba(255,255,255,.45);padding-top:2px}
+.info dd{margin:0;font-size:16px;font-weight:600;letter-spacing:-.03em;line-height:1.4}
+.txt section{margin-top:44px}
+.txt h2{margin:0 0 14px;font-size:12px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.5)}
+.prog{margin:0;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.16)}
+.prog li{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.prog b{width:50px;flex:none;font-size:14px;font-weight:700}
+.prog p{margin:0;font-size:14px;line-height:1.4;color:rgba(255,255,255,.85)}
+.prog small{display:block;margin-top:2px;font-size:12.5px;color:rgba(255,255,255,.45)}
+.who{margin:0;font-size:18px;font-weight:700;letter-spacing:-.03em}
+.who span{margin-left:8px;font-size:13px;font-weight:400;color:rgba(255,255,255,.55)}
+.bio{margin:12px 0 0;font-size:14px;line-height:1.65;color:rgba(255,255,255,.7)}
+.career{margin:16px 0 0;padding:0;list-style:none}
+.career li{position:relative;padding-left:12px;font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.7)}
+.career li:before{content:'';position:absolute;left:0;top:.85em;width:4px;height:1px;background:rgba(255,255,255,.5)}
+.foot{padding:44px 28px 0}
+.contact{margin:0;font-size:13px;line-height:1.7;color:rgba(255,255,255,.55)}
+.contact a{color:rgba(255,255,255,.85);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
+.contact .tel{color:rgba(255,255,255,.85);cursor:default}
+a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important;border:0!important;pointer-events:none!important;cursor:default!important}
+.legal{margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.legal p{margin:0 0 6px;font-size:11px;line-height:1.55;color:rgba(255,255,255,.38)}
+.legal p.np{display:flex;align-items:center;gap:8px}.legal .np img{height:24px;width:auto;flex:none;border-radius:2px}
+.cta-bar{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:28px 20px 16px;padding-bottom:calc(16px + env(safe-area-inset-bottom));background:linear-gradient(rgba(0,0,0,0),#282828 45%)}
+.apply{display:block;width:100%;max-width:600px;height:54px;margin:0 auto;border-radius:3px;background:#fff;color:#111;font-size:16px;font-weight:600;letter-spacing:-.02em;transition:.18s}
+.apply:active{transform:scale(.98)}
+.apply[disabled]{background:#3E3E3E;color:#9A9A9A;cursor:default}
+.scrim{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,.65);z-index:60;opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;max-width:430px;margin:0 auto;background:#F2F1EE;color:#1C1C1C;border-radius:16px 16px 0 0;padding:10px 24px calc(40px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .46s var(--ease);max-height:88vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.sheet.on{transform:none}
+.handle{width:38px;height:4px;border-radius:9px;background:#C9C7C1;margin:0 auto 20px}
+.sheet h3{margin:0 0 6px;font-size:21px;font-weight:700;letter-spacing:-.035em}
+.lede{margin:0 0 22px;font-size:13px;color:#6F6D68;line-height:1.6}
+.sheet label{display:block;font-size:12.5px;color:#6F6D68;margin:0 0 7px}
+.sheet label i{font-style:normal;color:#B03A2E}
+.sheet input{width:100%;height:50px;border:1px solid rgba(30,30,28,.16);border-radius:3px;background:#fff;padding:0 14px;font-size:15px;font-family:inherit;letter-spacing:-.02em;color:#1C1C1C;-webkit-appearance:none}
+.sheet input::placeholder{color:#BEBAB3;opacity:1}
+.sheet input:focus{outline:none;border-color:#1C1C1C}
+.field{margin-bottom:18px}
+.row2{display:grid;grid-template-columns:1fr 104px;gap:10px}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;min-height:48px;padding:0 12px;border:1px solid rgba(30,30,28,.16);border-radius:3px;background:#fff;font-size:14px;color:#54524E;letter-spacing:-.02em;transition:.18s}
+.seg button[aria-pressed="true"]{background:#1C1C1C;border-color:#1C1C1C;color:#fff;font-weight:600}
+.doclink{display:flex;align-items:center;gap:8px;width:100%;min-height:48px;padding:0 14px;border:1px solid rgba(30,30,28,.16);border-radius:3px;background:#fff;font-size:14px;color:#54524E;text-decoration:none;letter-spacing:-.02em;white-space:nowrap;overflow:hidden}
+.doclink span{font-size:11px;opacity:.6;margin-left:auto;flex:none}
+.submit{width:100%;height:54px;border-radius:3px;background:#1C1C1C;color:#fff;font-size:15.5px;font-weight:600;margin-top:20px;letter-spacing:-.03em;transition:.2s}
+.submit[disabled]{background:#CFCDC7;color:#8B8984;cursor:default}
+.submit.dim{background:#8B8984}
+.err{margin:10px 0 0;font-size:12.5px;line-height:1.6;color:#B03A2E;text-align:center}
+.done{text-align:center;padding:14px 0 6px}
+.check{display:block;width:52px;height:52px;margin:0 auto 20px}
+.check circle,.check path{stroke:#1C1C1C;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:var(--l);stroke-dashoffset:var(--l);animation:draw .7s var(--ease) forwards}
+.check path{animation-delay:.34s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (max-width:360px){.txt,.foot{padding-left:22px;padding-right:22px}.txt h1{font-size:25px}}
+
+/* ── 글자 등장 효과 (JS가 동작할 때만 .fx 적용 → JS가 막혀도 글자는 그대로 보임) ── */
+.fx [data-fx]{opacity:0;transform:translateY(16px);filter:blur(6px);transition:opacity 1s var(--ease),transform 1.1s var(--ease),filter 1s var(--ease);transition-delay:var(--d,0s)}
+.fx [data-fx].in{opacity:1;transform:none;filter:blur(0)}
+.fx [data-fx="words"]{opacity:1;transform:none;filter:none}
+.fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.fx .w>span{display:inline-block;transform:translateY(110%);opacity:0;transition:transform 1.1s var(--ease),opacity .8s ease;transition-delay:var(--d,0s)}
+.fx [data-fx="words"].in .w>span{transform:none;opacity:1}
+@media (prefers-reduced-motion:reduce){.fx [data-fx],.fx .w>span{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
+
+/* 등록 전용 화면: 신청 창을 페이지에 바로 표시 */
+.hd{max-width:480px;margin:0 auto;padding:44px 24px 0}
+.hd .series{margin:0;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.hd h1{margin:12px 0 0;font-size:26px;font-weight:700;letter-spacing:-.045em}
+.hd .when{margin:10px 0 0;font-size:14px;line-height:1.6;color:rgba(255,255,255,.7);letter-spacing:-.02em}
+.sheet{position:static;transform:none;transition:none;max-width:480px;margin:22px auto 40px;border-radius:12px;max-height:none;overflow:visible;padding:26px 22px 30px}
+@media (max-width:520px){.sheet{margin:22px 16px 32px}}
+</style>
+</head>
+<body>
+<header class="hd">
+  <p class="series">PLUS Tech Seminar</p>
+  <h1>참가 등록</h1>
+  <p class="when">2026. 11. 4(수) 오후 4시 · 한화투자증권 본사 4층 스마트라운지</p>
+</header>
+<div class="sheet" id="sheet" aria-labelledby="st">
+  <div id="form">
+    <h3 id="st" style="margin-bottom:22px">신청 정보</h3>
+    <div class="row2">
+      <div class="field"><label for="nm">이름 <i>*</i></label><input type="text" id="nm" autocomplete="name" placeholder="김고객"></div>
+      <div class="field"><label for="yr">생년 <i>*</i></label><input type="text" id="yr" inputmode="numeric" maxlength="4" placeholder="1900"></div>
+    </div>
+    <div class="field"><label for="og">소속/본부 및 직함 <i>*</i></label><input type="text" id="og" autocomplete="organization" placeholder="예: 한화투자증권/PLUS자산전략팀 부장"></div>
+    <div class="field"><label for="ph">휴대폰번호 <i>*</i></label><input type="tel" id="ph" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" maxlength="13"></div>
+    <div class="field"><label>개인차량 이용여부</label><div class="seg" id="car"><button type="button" data-v="y" aria-pressed="false">이용</button><button type="button" data-v="n" aria-pressed="false">미이용</button></div></div><div class="field" id="carNumField" style="display:none"><label for="carNum">차량번호 <i>*</i></label><input type="text" id="carNum" placeholder="12가 3456"></div>
+    <div class="field">
+      <label>가망고객 개인정보 동의서 <i>*</i></label>
+      <a class="doclink" id="doclink" href="https://hanwhaplus-pb.github.io/forms/prospect-consent-mobile.html" target="_blank" rel="noopener noreferrer">동의서 작성하기 <span>↗</span></a>
+      <p id="docStatus" style="margin-top:6px;font-size:12.5px;color:#B0AEA8"></p>
+    </div>
+    <p style="margin:4px 0 14px;font-size:12.5px;line-height:1.6;color:#8A877F;text-align:center">변동사항이 있으실 경우 초대자를 통해 연락 부탁드립니다.</p>
+    <button class="submit dim" id="submit">등록 완료</button>
+    <p class="err" id="err"></p>
+  </div>
+  <div class="done" id="done" hidden>
+    <svg class="check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" style="--l:151"></circle><path d="M15 27l8 8 15-16" style="--l:33"></path></svg>
+    <h3>등록이 완료되었습니다</h3>
+    <p class="lede" id="dl" style="margin-bottom:26px"></p>
+    <button class="submit" id="cd">확인</button>
+  </div>
+</div>
+
+<script>
+(function(){
+var EVENT_NAME="PLUS Mini Academy 2026-11-04", DOC_URL="https://hanwhaplus-pb.github.io/forms/prospect-consent-mobile.html", ENDPOINT="https://script.google.com/macros/s/AKfycbx2yRHUYEVRJUm_Xdp7rDAwj_ITcrzjvT9CWyPTe7c2bQ-ed5dwVdMdd-h7iU9D6qpzNw/exec", PREVIEW=false;
+function $(id){return document.getElementById(id)}
+var sheet=$('sheet'),nm=$('nm'),ph=$('ph'),og=$('og'),yr=$('yr'),submit=$('submit'),apply={textContent:'',disabled:false,focus:function(){}},err=$('err');
+function segInit(el){
+  if(!el) return function(){return ''};
+  var bs=[].slice.call(el.querySelectorAll('button'));
+  bs.forEach(function(b){b.addEventListener('click',function(){
+    bs.forEach(function(x){x.setAttribute('aria-pressed','false')}); b.setAttribute('aria-pressed','true'); check();
+  })});
+  return function(){var s=bs.filter(function(b){return b.getAttribute('aria-pressed')==='true'})[0];return s?s.getAttribute('data-v'):''};
+}
+var mealVal=segInit($('meal')), drinkVal=segInit($('drink')), carVal=segInit($('car'));
+var drinkTxt=$('drinkTxt')||{value:'',style:{}}, drinkField=$('drinkField')||{style:{}};
+var carNum=$('carNum')||{value:'',style:{}}, carNumField=$('carNumField')||{style:{}};
+if($('drinkTxt')) drinkTxt.addEventListener('input',check);
+if($('carNum')) carNum.addEventListener('input',check);
+function drinkStr(){var d=drinkVal();return d==='n'?'없음(따뜻한 차)':(d==='y'?drinkTxt.value.trim():'')}
+
+/* 동의서 "실제 제출"만 인정 — 동의서 페이지가 남기는 localStorage 신호(consent_done_<token>) 확인 */
+var consentDone=false, consentToken=null, docStatus=$('docStatus');
+function setDocStatus(){
+  if(consentDone){docStatus.textContent='제출 완료 ✓';docStatus.style.color='#1C1C1C'}
+  else{docStatus.textContent='입력 후 아래 버튼을 누르면 동의서 화면으로 이동하며, 동의서를 제출하면 참가 등록까지 함께 완료됩니다.';docStatus.style.color='#B0AEA8'}
+}
+function checkConsentStorage(){
+  if(!consentToken||consentDone) return;
+  try{ if(localStorage.getItem('consent_done_'+consentToken)){consentDone=true;setDocStatus();check()} }catch(e){}
+}
+addEventListener('storage',function(e){if(e.key==='consent_done_'+consentToken)checkConsentStorage()});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)checkConsentStorage()});
+addEventListener('focus',checkConsentStorage);
+
+/* 등록 전용 화면: 열자마자 신청 창 준비 */
+function init(){
+  consentToken='t'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+  consentDone=false; setDocStatus(); syncDoc(); check();
+}
+$('cd').addEventListener('click',function(){ $('cd').hidden=true });
+
+/* 동의서로 입력값 전달 — 해시(#)에 담아 서버 기록, 리퍼러에 남지 않게 */
+var doclink=$('doclink');
+doclink.addEventListener('click',function(e){ if(PREVIEW){e.preventDefault();err.textContent='(미리보기) 실제 페이지에서는 동의서 화면이 열립니다.';return} setTimeout(checkConsentStorage,300) });
+function syncDoc(){
+  var p=[];
+  if(nm.value.trim()) p.push('name='+encodeURIComponent(nm.value.trim()));
+  if(ph.value.trim()) p.push('mobile='+encodeURIComponent(ph.value.trim()));
+  if(og.value.trim()) p.push('org='+encodeURIComponent(og.value.trim()));
+  if(/^(19|20)\d\d$/.test(yr.value)) p.push('year='+yr.value);
+  var m=mealVal(); if(m) p.push('meal='+encodeURIComponent(m==='y'?'참석':'불참'));
+  var c=carVal(); if(c) p.push('car='+encodeURIComponent(c==='y'?'이용':'미이용'));
+  if(c==='y'&&carNum.value.trim()) p.push('carNumber='+encodeURIComponent(carNum.value.trim()));
+  else if(c==='n') p.push('carNumber=-');
+  var dr=drinkStr(); if(dr) p.push('drink='+encodeURIComponent(dr));
+  p.push('event='+encodeURIComponent(EVENT_NAME));
+  p.push('reg=tech2');
+  if(consentToken) p.push('token='+consentToken);
+  doclink.href=DOC_URL+(p.length?'#'+p.join('&'):'');
+}
+ph.addEventListener('input',function(){
+  var v=ph.value.replace(/\D/g,'').slice(0,11);
+  ph.value=v.length<4?v:v.length<8?v.slice(0,3)+'-'+v.slice(3):v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7); check();
+});
+yr.addEventListener('input',function(){yr.value=yr.value.replace(/\D/g,'').slice(0,4);check()});
+[nm,yr,og,ph].forEach(function(el){['input','change','blur','keyup'].forEach(function(t){el.addEventListener(t,check)})});
+function filled(){return nm.value.trim()&&og.value.trim()&&/^(19|20)\d\d$/.test(yr.value)&&ph.value.replace(/\D/g,'').length>=10
+  &&(carVal()!=='y'||carNum.value.trim())&&(drinkVal()!=='y'||drinkTxt.value.trim())}
+function check(){
+  carNumField.style.display=carVal()==='y'?'':'none'; if(carVal()!=='y') carNum.value='';
+  drinkField.style.display=drinkVal()==='y'?'':'none'; if(drinkVal()!=='y') drinkTxt.value='';
+  syncDoc();
+  /* 앱 내 브라우저에서는 동의서 신호가 안 올 수 있어, 입력만 다 되면 버튼을 열어두고
+     동의서 미확인 시 누르면 동의서 화면으로 이동(동의서 제출 시 등록까지 자동 완료) */
+  submit.disabled=false; submit.classList.toggle('dim',!filled());
+  if(filled()){ if(/입력이 필요한/.test(err.textContent)) err.textContent=''; [nm,yr,og,ph,drinkTxt,carNum].forEach(function(el){el.style.borderColor=''}) }
+  submit.textContent=(consentDone||PREVIEW)?'등록 완료':'동의서 작성 후 등록 완료';
+}
+function missingList(){
+  var m=[];
+  if(!nm.value.trim()) m.push([nm,'이름']);
+  if(!/^(19|20)\d\d$/.test(yr.value)) m.push([yr,'생년(4자리, 예: 1975)']);
+  if(!og.value.trim()) m.push([og,'소속/본부 및 직함']);
+  if(ph.value.replace(/\D/g,'').length<10) m.push([ph,'휴대폰번호']);
+  if(drinkVal()==='y'&&!drinkTxt.value.trim()) m.push([drinkTxt,'선호 음료']);
+  if(carVal()==='y'&&!carNum.value.trim()) m.push([carNum,'차량번호']);
+  return m;
+}
+function showMissing(){
+  var m=missingList();
+  [nm,yr,og,ph,drinkTxt,carNum].forEach(function(el){el.style.borderColor=''});
+  m.forEach(function(x){x[0].style.borderColor='#B03A2E'});
+  err.textContent=m.length?'입력이 필요한 항목: '+m.map(function(x){return x[1]}).join(', '):'';
+  if(m.length){try{m[0][0].focus();m[0][0].scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}}
+}
+function esc(s){return String(s).replace(/[<>&"]/g,'')}
+function finish(name){
+  $('form').hidden=true; $('done').hidden=false;
+  $('dl').innerHTML=esc(name)+' 고객님, 신청 감사합니다.<br>상세 안내를 위해 PLUS PB가 별도로 연락드릴 예정입니다.<br>변동사항이 있으실 경우 초대자를 통해 연락 부탁드립니다.';
+  apply.textContent='등록 완료'; apply.disabled=true;
+}
+submit.addEventListener('click',function(){
+  check(); if(!filled()){showMissing();return}
+  if(PREVIEW){finish(nm.value.trim());return}
+  if(!consentDone){checkConsentStorage(); if(!consentDone){syncDoc();location.href=doclink.href;return}}
+  var data={name:nm.value.trim(),year:yr.value,org:og.value.trim(),phone:ph.value,
+    meal:mealVal()==='y'?'참석':(mealVal()==='n'?'불참':''),
+    car:carVal()==='y'?'이용':(carVal()==='n'?'미이용':''),carNumber:carVal()==='y'?carNum.value.trim():(carVal()==='n'?'-':''),
+    drink:drinkStr(),consent:'동의',event:EVENT_NAME};
+  submit.disabled=true; submit.textContent='접수 중…';
+  if(!ENDPOINT){finish(data.name);return}
+  var fd=new FormData(); Object.keys(data).forEach(function(k){fd.append(k,data[k])});
+  function fail(){submit.disabled=false;submit.textContent='등록 완료';err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하거나 pluspb@hanwha.com 으로 연락 바랍니다.'}
+  fetch(ENDPOINT,{method:'POST',body:fd}).then(function(r){return r.text()}).then(function(t){
+    var saved=false; try{var j=JSON.parse(t);saved=!!(j&&j.ok)}catch(_){saved=/^\s*ok\s*$/i.test(t)}
+    if(saved) finish(data.name); else fail();
+  }).catch(fail);
+});
+init();
+})();
+
+</script>
+
+</body>
+</html>
